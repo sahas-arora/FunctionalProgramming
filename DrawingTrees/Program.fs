@@ -1,13 +1,27 @@
-// Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
+open DrawingTrees
 
-open System
 
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
+let randomSquareTree width depth =
+    let rand = System.Random()
+    let randomizedMatrix =
+        [1 .. depth]
+        |> List.map (fun _ ->
+            [1 .. width] |> List.map (fun _ -> rand.Next(0,width))
+        )
+    let nodes =
+        randomizedMatrix
+        |> List.fold (fun s xs ->
+            [0 .. width-1] |> List.map (fun i -> Node("s", (List.zip s xs) |> (List.filter (fun (_, j) -> j = i )) |> (List.map (fst)) ))
+        ) ([1 .. width] |> List.map (fun _ -> Node("l", [])))
+    Node("r", nodes)
+
 
 [<EntryPoint>]
 let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
-    0 // return an integer exit code
+    let myTree = Node ("A",
+                    [Node ("B",
+                        [Node ("C",
+                            [Node ("D", [])])])])
+    let exTree = randomSquareTree 5 2
+    printf "%A" (design exTree)
+    0
