@@ -6,7 +6,20 @@ open DrawingTrees
 
 //let nodeDistanceProp tree =
 
+let nodeDistanceProp tree =
+    let rec offspringDistance subtree =
+        match subtree with 
+            | Node((a1,pos1),subtree1) ::  Node((a2,pos2),subtree2) :: t when pos2-pos1>=1 -> offspringDistance (Node((a2,pos2),subtree2) :: t)
+            | n1 :: n2 :: t -> false
+            | _ -> true
 
+    let rec nodeDistanceProp tree =
+        match tree with
+            | Node((a,pos), subtree) :: t -> offspringDistance subtree && nodeDistanceProp subtree 
+                                             && nodeDistanceProp t
+            | _ -> true
+
+    nodeDistanceProp [tree]
 
 
 (* let parentCenteredProp tree =
