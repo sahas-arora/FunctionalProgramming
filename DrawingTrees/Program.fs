@@ -24,4 +24,6 @@ let main argv =
                             [Node ("D", [])])])])
     let exTree = randomSquareTree 5 2
     printf "%A" (design exTree)
+
+    prints
     0

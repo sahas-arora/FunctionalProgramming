@@ -6,7 +6,6 @@ open FsCheck
 open DrawingTrees
 
 
-
 let absolutePosTree (posTree : Tree<'a * float>) : Tree<'a * float> =
     let rec absDistance parentPos tree =
         match tree with
@@ -14,33 +13,27 @@ let absolutePosTree (posTree : Tree<'a * float>) : Tree<'a * float> =
 
     absDistance 0.0 posTree
 
-
-let bfs postree =
+let posByLayer posTree =
     let rec bfs trees positions queue =
         match trees, queue with 
         | Node((_,pos),subtrees)::t, _ -> bfs t (pos::positions) (queue @ subtrees)
-        | _, [] -> [positions]
+        | _, [] -> [positions |> List.rev]
         | _,_  -> (positions |> List.rev) :: (bfs queue [] [])
-    bfs [postree] [] []
+    bfs [posTree] [] []
 
+let rec sorted list =
+    match list with
+    |a::b::t when (a > b) -> false
+    |a::b::t -> sorted (b::t)
+    |_ -> true
 
-(* let nodeDistanceProp tree =
-    let rec offspringDistance subtree =
-        match subtree with
-            | Node((a1,pos1),subtree1) ::  Node((a2,pos2),subtree2) :: t when pos2-pos1>=1.0 -> offspringDistance (Node((a2,pos2),subtree2) :: t)
-            | n1 :: n2 :: t -> false
-            | _ -> true
-
-    let rec nodeDistanceProp tree =
-        match tree with
-            | Node((a,pos), subtree) :: t -> offspringDistance subtree && nodeDistanceProp subtree
-                                             && nodeDistanceProp t
-            | _ -> true
-
-    nodeDistanceProp [tree] *)
-
-
-
+let rec nodeDistanceProp tree =
+    let rec sortedPosList posList =
+        match posList with
+            |h::t when sorted h -> sortedPosList t
+            |h::t -> false
+            |_ -> true
+    sortedPosList(posByLayer(absolutePosTree(tree)))
 
 
 (* let parentCenteredProp tree =
