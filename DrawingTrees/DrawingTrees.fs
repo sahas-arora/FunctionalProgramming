@@ -22,7 +22,7 @@ let rmax (p: float) (q: float) : float = if p > q then p else q
 
 let rec fit e1 e2 =
     match (e1, e2) with
-    | (_, p) :: ps, (q, _) :: qs -> rmax (fit ps qs) (p - q + 1.0)
+    | ((_, p) :: ps), ((q, _) :: qs) -> rmax (fit ps qs) (p - q + 1.0)
     | _ -> 0.0
 
 
@@ -39,7 +39,7 @@ let fitListr (es: Extent list) =
     let rec fitListr' acc es =
         match es with
         | [] -> []
-        | (e :: es') -> let x = -(fit acc e) in x :: fitListr' (merge (moveExtent e x) acc) es'
+        | (e :: es') -> let x = -(fit e acc) in x :: fitListr' (merge (moveExtent e x) acc) es'
 
     fitListr' [] (List.rev es) |> List.rev
 
