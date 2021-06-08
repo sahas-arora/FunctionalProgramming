@@ -60,3 +60,12 @@ let design (tree: Tree<'a>) : Tree<'a * float> =
         (resultTree, resultextent)
 
     fst (design' tree)
+
+
+let bfs tree =
+    let rec bfs trees positions queue =
+        match trees, queue with 
+        | Node((_,pos),subtrees)::t, _ -> bfs t (pos::positions) (queue @ subtrees)
+        | _, [] -> []
+        | _,_  -> (positions |> List.rev) :: bfs queue [] []
+    bfs [tree] [] []

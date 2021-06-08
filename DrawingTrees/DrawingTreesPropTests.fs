@@ -15,10 +15,16 @@ let absolutePosTree (posTree : Tree<'a * float>) : Tree<'a * float> =
     absDistance 0.0 posTree
 
 
+let bfs postree =
+    let rec bfs trees positions queue =
+        match trees, queue with 
+        | Node((_,pos),subtrees)::t, _ -> bfs t (pos::positions) (queue @ subtrees)
+        | _, [] -> [positions]
+        | _,_  -> (positions |> List.rev) :: (bfs queue [] [])
+    bfs [postree] [] []
 
 
-
-let nodeDistanceProp tree =
+(* let nodeDistanceProp tree =
     let rec offspringDistance subtree =
         match subtree with
             | Node((a1,pos1),subtree1) ::  Node((a2,pos2),subtree2) :: t when pos2-pos1>=1.0 -> offspringDistance (Node((a2,pos2),subtree2) :: t)
@@ -31,7 +37,10 @@ let nodeDistanceProp tree =
                                              && nodeDistanceProp t
             | _ -> true
 
-    nodeDistanceProp [tree]
+    nodeDistanceProp [tree] *)
+
+
+
 
 
 (* let parentCenteredProp tree =
