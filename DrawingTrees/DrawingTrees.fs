@@ -15,7 +15,7 @@ let rec merge e1 e2 =
     | ps, [] -> ps
     | (p, _) :: ps, (_, q) :: qs -> (p, q) :: (merge ps qs)
 
-let mergeList (es: Extent list) : Extent =
+let rec mergeList (es: Extent list) : Extent =
     List.fold (fun acc (e: Extent) -> merge e acc) [] es
 
 let rmax (p: float) (q: float) : float = if p > q then p else q
@@ -41,7 +41,7 @@ let fitListr (es: Extent list) =
         | [] -> []
         | (e :: es') -> let x = -(fit acc e) in x :: fitListr' (merge (moveExtent e x) acc) es'
 
-    fitListr' [] (List.rev es)
+    fitListr' [] (List.rev es) |> List.rev
 
 
 let mean x y = (x + y) / 2.0
