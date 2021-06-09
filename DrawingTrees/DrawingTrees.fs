@@ -13,8 +13,7 @@ let rec merge e1 e2 =
     match e1, e2 with
     | [], qs -> qs
     | ps, [] -> ps
-    | ((p, _) :: ps), ((_, q) :: qs) -> 
-                                    (p, q) :: (merge ps qs)
+    | ((p, _) :: ps), ((_, q) :: qs) -> (p, q) :: (merge ps qs)
 
 let rec mergeList (es: Extent list) : Extent =
     List.fold (fun acc (e: Extent) -> merge e acc) [] es
@@ -26,7 +25,6 @@ let rec fit e1 e2 =
     | ((_, p) :: ps), ((q, _) :: qs) -> rmax (fit ps qs) (p - q + 1.0)
     | _ -> 0.0
 
-
 let fitListl (es: Extent list) =
     let rec fitListl' acc es =
         match es with
@@ -35,7 +33,6 @@ let fitListl (es: Extent list) =
 
     fitListl' [] es
 
-
 let fitListr (es: Extent list) =
     let rec fitListr' acc es =
         match es with
@@ -43,7 +40,6 @@ let fitListr (es: Extent list) =
         | (e :: es') -> let x = -(fit e acc) in x :: fitListr' (merge (moveExtent e x) acc) es'
 
     fitListr' [] (List.rev es) |> List.rev
-
 
 let mean x y = (x + y) / 2.0
 
@@ -59,5 +55,4 @@ let design (tree: Tree<'a>) : Tree<'a * float> =
         let resultextent = (0.0, 0.0) :: mergeList pextents
         let resultTree = Node((label, 0.0), ptrees)
         (resultTree, resultextent)
-
     fst (design' tree)

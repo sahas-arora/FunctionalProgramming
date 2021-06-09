@@ -73,10 +73,3 @@ let reflectProp tree =
         match treeLayers, reflTreeLayers with
         | h1::t1, h2::t2 when reflectedList (h1 |> List.rev) h2 -> reflectProp t1 t2   
     reflectProp (posByLayer(tree)) (posByLayer(reflect(tree)))  
-
-
-
-
-//let tree = Node(("a",0.0),[Node(("b",-0.5),[]);Node(("c",1.5),[])])
-
-//let subtrees =[Node(("b",-0.5),[]);Node(("c",1.5),[])]
