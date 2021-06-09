@@ -16,6 +16,8 @@ let randomSquareTree width depth =
     Node("r", nodes)
 
 
+let tree = randomSquareTree 5 5;;
+
 [<EntryPoint>]
 let main argv =
     let myTree = Node ("A",

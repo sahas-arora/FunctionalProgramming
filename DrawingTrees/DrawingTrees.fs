@@ -40,7 +40,7 @@ let fitListr (es: Extent list) =
     let rec fitListr' acc es =
         match es with
         | [] -> []
-        | (e :: es') -> let x = -(fit acc e) in x :: fitListr' (merge (moveExtent e x) acc) es'
+        | (e :: es') -> let x = -(fit e acc) in x :: fitListr' (merge (moveExtent e x) acc) es'
 
     fitListr' [] (List.rev es) |> List.rev
 
@@ -62,5 +62,3 @@ let design (tree: Tree<'a>) : Tree<'a * float> =
         (resultTree, resultextent)
 
     fst (design' tree)
-
-
