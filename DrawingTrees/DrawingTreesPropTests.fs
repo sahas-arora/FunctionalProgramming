@@ -64,7 +64,7 @@ let centProp tree =
 let rec reflectedList l1 l2 =
     match l1, l2 with 
     | h1::t1, h2::t2 when h1 = -h2 -> reflectedList t1 t2
-    | [], [] -> truee 
+    | [], [] -> true
     | _ -> false
 
 // check if reflected tree is equal to original tree with horizontal position and sign inverted
