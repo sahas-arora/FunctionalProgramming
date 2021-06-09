@@ -5,19 +5,21 @@ open FsCheck
 
 open DrawingTrees
 
-
+// check if nodes are at least 1.0 to the right of their predecessor
 let rec distanced list =
     match list with
     |a::b::t when (b-a>=1.0) -> distanced (b::t)
     |a::b::t -> false
     |_ -> true
 
+// convert relative positions to absolute by adding parent position to it
 let absolutePosTree (posTree : Tree<'a * float>) : Tree<'a * float> =
     let rec absDistance parentPos tree =
         match tree with
         | Node((a, pos), subtree) -> Node((a, pos + parentPos), List.map (fun tree -> absDistance (pos + parentPos) tree) subtree)
     absDistance 0.0 posTree
 
+// extracts all node positions at each level of depth into a list, and then returns a list of these lists 
 let posByLayer posTree =
     let rec bfs trees positions queue =
         match trees, queue with 
@@ -26,6 +28,7 @@ let posByLayer posTree =
         | _,_  -> (positions |> List.rev) :: (bfs queue [] [])
     bfs [posTree] [] []
 
+// Checks distance predicate on absolute distance for all nodes at each depth, repeating for all depths 
 let rec nodeDistanceProp tree =
     let rec sortedPosList posList =
         match posList with
@@ -34,7 +37,7 @@ let rec nodeDistanceProp tree =
             |_ -> true
     sortedPosList(posByLayer(absolutePosTree(tree)))
 
-
+// return pos of 1st and last node in a list
 let headAndTailPos subtrees =
     match subtrees with 
     |Node((a,pos1),trees)::t -> match subtrees |> List.rev with
@@ -42,11 +45,13 @@ let headAndTailPos subtrees =
                                 | _-> 0.0,0.0
     |_ -> 0.0,0.0
 
+// check if a list of nodes are centered under their parent
 let centered subtrees = 
     match (headAndTailPos (subtrees)) with
     |(a,b) when a+b=0.0 -> true          
     | _ -> false
 
+// recursively check if all nodes are centered above their subtrees if any
 let centProp tree =
     let rec parentCenteredProp trees =
          match trees with
