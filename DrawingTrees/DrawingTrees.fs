@@ -61,27 +61,3 @@ let design (tree: Tree<'a>) : Tree<'a * float> =
         (resultTree, resultextent)
 
     fst (design' tree)
-
-let headAndTailPos subtrees =
-    match subtrees with 
-    |Node((a,pos1),trees)::t -> match subtrees |> List.rev with
-                                |Node((a,pos2),trees)::_ -> pos1,pos2
-                                | _-> 0.0,0.0
-    |_ -> 0.0,0.0
-
-let centered subtrees = 
-    match (headAndTailPos (subtrees)) with
-    |(a,b) when a+b=0.0 -> true          
-    | _ -> false
-
-let centProp tree =
-    let rec parentCenteredProp trees =
-         match trees with
-         |( Node((a,pos),subtrees))::t when centered (subtrees) -> parentCenteredProp subtrees && parentCenteredProp t  
-         | [] -> true
-         | _ -> false
-    parentCenteredProp [tree]
-
-//let tree = Node(("a",0.0),[Node(("b",-0.5),[]);Node(("c",1.5),[])])
-
-//let subtrees =[Node(("b",-0.5),[]);Node(("c",1.5),[])]
