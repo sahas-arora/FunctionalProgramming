@@ -23,14 +23,14 @@ let posByLayer posTree =
 
 let rec distanced list =
     match list with
-    |a::b::t when (b-a>=1) -> distanced (b::t)
+    |a::b::t when (b-a>=1.0) -> distanced (b::t)
     |a::b::t -> false
     |_ -> true
 
 let rec nodeDistanceProp tree =
     let rec sortedPosList posList =
         match posList with
-            |h::t when sorted h -> sortedPosList t
+            |h::t when distanced h -> sortedPosList t
             |h::t -> false
             |_ -> true
     sortedPosList(posByLayer(absolutePosTree(tree)))
