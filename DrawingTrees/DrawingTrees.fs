@@ -13,7 +13,7 @@ let rec merge e1 e2 =
     match e1, e2 with
     | [], qs -> qs
     | ps, [] -> ps
-    | ((p, _) :: ps), ((_, q) :: qs) -> 
+    | ((p, _) :: ps), ((_, q) :: qs) ->
                                     (p, q) :: (merge ps qs)
 
 let rec mergeList (es: Extent list) : Extent =
@@ -43,6 +43,7 @@ let fitListr (es: Extent list) =
         | (e :: es') -> let x = -(fit acc e) in x :: fitListr' (merge (moveExtent e x) acc) es'
 
     fitListr' [] (List.rev es) |> List.rev
+
 
 
 let mean x y = (x + y) / 2.0

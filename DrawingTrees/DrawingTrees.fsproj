@@ -7,7 +7,9 @@
   <ItemGroup>
     <Compile Include="AST.fs" />
     <Compile Include="DrawingTrees.fs" />
+    <Compile Include="AstToTree.fs" />
     <Compile Include="DrawingTreesPropTests.fs" />
+    <Compile Include="PostScript.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
