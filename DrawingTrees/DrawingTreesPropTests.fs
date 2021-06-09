@@ -21,10 +21,10 @@ let posByLayer posTree =
         | _,_  -> (positions |> List.rev) :: (bfs queue [] [])
     bfs [posTree] [] []
 
-let rec sorted list =
+let rec distanced list =
     match list with
-    |a::b::t when (a > b) -> false
-    |a::b::t -> sorted (b::t)
+    |a::b::t when (b-a>=1) -> distanced (b::t)
+    |a::b::t -> false
     |_ -> true
 
 let rec nodeDistanceProp tree =
